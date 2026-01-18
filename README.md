@@ -1,6 +1,11 @@
 # Talk Mqtt
 
-A template to get started with Nextcloud app development.
+An Nexcloud application for integrating Nextcloud Talk with MQTT Broker.
+Currenly this app supports BeforeCallStartedEvent.
+
+# TODO
+- move broker's params to the frontend
+- add remaining events 
 
 ## Usage
 
