@@ -17,6 +17,9 @@ class MqttService
     }
 
     public function sendEvent(string $topic, string $message) {
+        if (!$this->mqtt->isConnected()) {
+            $this->mqtt->connect();
+        }
         $this->mqtt->publish($topic, $message, 1); 
     }
 }
