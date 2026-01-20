@@ -5,11 +5,11 @@ namespace OCA\TalkMqtt\Workflow;
 use OCA\Talk\Events\BeforeCallStartedEvent;
 use OCA\TalkMqtt\Service\MqttService;
 use OCP\EventDispatcher\Event;
-use OCP\WorkflowEngine\IOperation;
+use OCP\WorkflowEngine\IManager;
 use OCP\WorkflowEngine\IRuleMatcher;
 use OCP\WorkflowEngine\ISpecificOperation;
 
-class MqttOperation implements IOperation, ISpecificOperation
+class MqttOperation implements ISpecificOperation
 {
 
     private $mqtt;
@@ -41,7 +41,7 @@ class MqttOperation implements IOperation, ISpecificOperation
 
     function isAvailableForScope(int $scope): bool
     {
-        return true;
+        return $scope == IManager::SCOPE_ADMIN;
     }
 
     function validateOperation(string $name, array $checks, string $operation): void {}
