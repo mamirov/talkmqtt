@@ -11,6 +11,7 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCA\TalkMqtt\Workflow\MqttOperation;
 use OCA\TalkMqtt\Workflow\TalkCallEntity;
+use OCP\Util;
 use OCP\WorkflowEngine\Events\RegisterEntitiesEvent;
 use OCP\WorkflowEngine\Events\RegisterOperationsEvent;
 
@@ -31,6 +32,7 @@ class Application extends App implements IBootstrap
 			$dispatcher->addListener(RegisterOperationsEvent::class, function (RegisterOperationsEvent $event) {
 				$mqttOperation = $this->getContainer()->get(MqttOperation::class);
 				$event->registerOperation($mqttOperation);
+				Util::addScript($this::APP_ID, $this::APP_ID . '-main');
 			});
 		}
 	}

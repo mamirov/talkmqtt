@@ -16,12 +16,12 @@
 		<app>spreed</app>
 	</dependencies>
 	<navigations>
-		<navigation>
+		<!-- <navigation>
 			<id>talkmqtt</id>
 			<name>Talk Mqtt</name>
 			<route>talkmqtt.page.index</route>
 			<icon>app.svg</icon>
 			<type>link</type>
-		</navigation>
+		</navigation> -->
 	</navigations>
 </info>

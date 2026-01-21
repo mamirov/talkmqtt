@@ -1,26 +1,11 @@
-<template>
-	<NcAppContent>
-		<div id="talkmqtt">
-			<h1>Hello world!</h1>
-		</div>
-	</NcAppContent>
-</template>
-
 <script>
-import NcAppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
+import TopicField from './components/TopicField.vue';
 
-export default {
-	name: 'App',
-	components: {
-		NcAppContent,
-	},
-}
+OCA.WorkflowEngine.registerOperator({
+	id: 'OCA\\TalkMqtt\\Workflow\\MqttOperation',
+	color: 'var(--color-success)',
+	operation: '',
+	options: TopicField,
+})
+
 </script>
-
-<style scoped lang="scss">
-#talkmqtt {
-	display: flex;
-	justify-content: center;
-	margin: 16px;
-}
-</style>
