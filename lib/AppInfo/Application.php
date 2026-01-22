@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace OCA\TalkMqtt\AppInfo;
 
+use OCA\TalkMqtt\Service\MqttService;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -14,6 +15,7 @@ use OCA\TalkMqtt\Workflow\TalkCallEntity;
 use OCP\Util;
 use OCP\WorkflowEngine\Events\RegisterEntitiesEvent;
 use OCP\WorkflowEngine\Events\RegisterOperationsEvent;
+use Psr\Container\ContainerInterface;
 
 class Application extends App implements IBootstrap
 {
@@ -22,6 +24,12 @@ class Application extends App implements IBootstrap
 	public function __construct()
 	{
 		parent::__construct(self::APP_ID);
+	}
+
+	public function register(IRegistrationContext $context): void
+	{
+		include_once __DIR__ . '/../../vendor/autoload.php';
+
 		$dispatcher = $this->getContainer()->get(IEventDispatcher::class);
 		if ($dispatcher instanceof IEventDispatcher) {
 			$dispatcher->addListener(RegisterEntitiesEvent::class, function (RegisterEntitiesEvent $event) {
@@ -35,11 +43,6 @@ class Application extends App implements IBootstrap
 				Util::addScript($this::APP_ID, $this::APP_ID . '-flow');
 			});
 		}
-	}
-
-	public function register(IRegistrationContext $context): void
-	{
-		include_once __DIR__ . '/../../vendor/autoload.php';
 	}
 
 	public function boot(IBootContext $context): void {}
