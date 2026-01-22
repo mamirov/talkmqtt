@@ -13,7 +13,6 @@
 	<bugs>https://github.com/mamirov/talkmqtt/issues</bugs>
 	<dependencies>
 		<nextcloud min-version="30" max-version="32"/>
-		<app>spreed</app>
 	</dependencies>
 	<navigations>
 		<!-- <navigation>

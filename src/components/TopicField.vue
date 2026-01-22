@@ -1,16 +1,21 @@
 <template>
     <div class="topic-field">
-        <label for="topic-input">MQTT Topic</label>
-        <input id="topic-input" v-model="topic" type="text" placeholder="e.g., home/living-room/temperature"
+        <NcTextField
+            v-model="topic"
+            label="MQTT Topic"
+            placeholder="e.g., home/living-room/temperature"
             @blur="validateTopic"
-            @input="validateTopic" />
+            @update:modelValue="validateTopic" />
         <span v-if="error" class="error">{{ error }}</span>
     </div>
 </template>
 
 <script>
+import NcTextField from '@nextcloud/vue/components/NcTextField'
+
 export default {
     name: 'TopicField',
+    components: { NcTextField },
     props: {
         modelValue: String,
     },
