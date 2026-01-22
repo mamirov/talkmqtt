@@ -14,8 +14,6 @@ use OCP\WorkflowEngine\GenericEntityEvent;
 use OCP\WorkflowEngine\IEntity;
 use OCP\WorkflowEngine\IRuleMatcher;
 
-use function OCP\Log\logger;
-
 class TalkCallEntity implements IEntity
 {
     function getName(): string
@@ -52,7 +50,6 @@ class TalkCallEntity implements IEntity
         && !$event instanceof RoomModifiedEvent) {
             return;
         }
-        logger('talkmqtt')->error("Preparing rule matcher for event: " . $eventName);
     }
 
     function isLegitimatedForUserId(string $userId): bool
