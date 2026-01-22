@@ -32,7 +32,7 @@ class Application extends App implements IBootstrap
 			$dispatcher->addListener(RegisterOperationsEvent::class, function (RegisterOperationsEvent $event) {
 				$mqttOperation = $this->getContainer()->get(MqttOperation::class);
 				$event->registerOperation($mqttOperation);
-				Util::addScript($this::APP_ID, $this::APP_ID . '-main');
+				Util::addScript($this::APP_ID, $this::APP_ID . '-flow');
 			});
 		}
 	}
