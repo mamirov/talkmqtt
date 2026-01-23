@@ -1,16 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OCA\TalkMqtt\Migration;
 
 use OCP\Migration\IOutput;
 use OCP\DB\ISchemaWrapper;
 use Closure;
-use Doctrine\DBAL\Schema\Table;
 use OCA\TalkMqtt\Db\Tables;
 use OCP\DB\Types;
 use OCP\Migration\SimpleMigrationStep;
-
-declare(strict_types=1);
 
 class Version010101Date20260123081800 extends SimpleMigrationStep
 {
