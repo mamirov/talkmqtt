@@ -4,29 +4,14 @@ declare(strict_types=1);
 
 namespace OCA\TalkMqtt\Service;
 
-use PhpMqtt\Client\MqttClient;
+use OCA\TalkMqtt\Db\MqttEventMapper;
 
-use function OCP\Log\logger;
 
-class MqttService 
-{
-    private $host = 'nanomq';
-    private $mqtt;
+class MqttService {
 
-    public function __construct() {
-        $this->mqtt = new MqttClient($this->host);
-    }
+    private MqttEventMapper $mqttEventMapper;
 
-    public function sendEvent(string $topic, string $message) {
-        $this->mqtt->connect();
-        try {
-            $this->mqtt->publish($topic, $message, 1); 
-        } catch (\Exception $e) {
-            logger('talkmqtt')->error('MQTT publish error: ' . $e->getMessage());
-        } finally {
-            if ($this->mqtt->isConnected()) {
-                $this->mqtt->disconnect();
-            }
-        }
+    public function sendEvent($eventName,  $json_event, $brokerId): void {
+        $this->mqttEventMapper->createEvent($eventName, $json_event, $brokerId);
     }
 }

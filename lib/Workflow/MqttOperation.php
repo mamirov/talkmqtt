@@ -69,7 +69,7 @@ class MqttOperation implements ISpecificOperation
         $payload['time'] = time();
         $payload = $this->serializeJson($event, $payload);
         $payload = json_encode($payload);
-        $this->mqtt->sendEvent("nextcloud/talk/messages", $payload);
+        $this->mqtt->sendEvent($event::class, $payload, 0);
     }
 
     private function serializeJson($class, $payload)
