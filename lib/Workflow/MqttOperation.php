@@ -10,6 +10,7 @@ use OCA\Talk\Events\LobbyModifiedEvent;
 use OCA\Talk\Events\RoomModifiedEvent;
 use OCA\Talk\Events\SessionLeftRoomEvent;
 use OCA\TalkMqtt\Service\MqttService;
+use OCA\TalkMqtt\Util\JsonUtil;
 use OCP\EventDispatcher\Event;
 use OCP\WorkflowEngine\IManager;
 use OCP\WorkflowEngine\IRuleMatcher;
@@ -67,42 +68,8 @@ class MqttOperation implements ISpecificOperation
         $payload = [];
         $payload['event'] = $event::class;
         $payload['time'] = time();
-        $payload = $this->serializeJson($event, $payload);
+        $payload = JsonUtil::serializeJson($event, $payload);
         $payload = json_encode($payload);
         $this->mqtt->sendEvent($event::class, $payload, 0);
-    }
-
-    private function serializeJson($class, $payload)
-    {
-        if (is_array($class)) {
-            foreach ($class as $arrayEl) {
-                $payload[] = $this->serializeJson($arrayEl, $payload);
-            }
-        }
-        $methods = get_class_methods($class);
-        $reflectionClass = new ReflectionClass($class::class);
-        foreach ($methods as $method) {
-            if ($method == 'getFieldTypes') {
-                foreach ($class->getFieldTypes() as $fieldType => $value) {
-                    $payload[$fieldType] = $class->{'get' . ucfirst($fieldType)}();
-                }
-                continue;
-            }
-            if (str_starts_with($method, 'get') || str_starts_with($method, 'is')) {
-                $fieldName = str_starts_with($method, 'get') ? lcfirst(substr($method, 3)) : $method;
-                $refMethod = $reflectionClass->getMethod($method);
-                if ($refMethod->getNumberOfParameters() > 0) {
-                    continue;
-                }
-                $fieldValue = $class->$method();
-                if (is_object($fieldValue) || (is_array($fieldValue) && !empty($fieldValue) && is_object($fieldValue[0]))) {
-                    $payload[$fieldName] = [];
-                    $payload[$fieldName] = $this->serializeJson($fieldValue, $payload[$fieldName]);
-                } else {
-                    $payload[$fieldName] = $fieldValue;
-                }
-            }
-        }
-        return $payload;
     }
 }
