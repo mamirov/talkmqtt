@@ -15,7 +15,7 @@
 		<nextcloud min-version="30" max-version="32"/>
 		<app>spreed</app>
 	</dependencies>
-	<navigations>
+	<!-- <navigations>
 		<navigation>
 			<id>talkmqtt</id>
 			<name>Talk Mqtt</name>
@@ -23,5 +23,5 @@
 			<icon>app.svg</icon>
 			<type>link</type>
 		</navigation>
-	</navigations>
+	</navigations> -->
 </info>
