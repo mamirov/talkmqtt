@@ -3,7 +3,7 @@ import { join, resolve } from "path";
 
 export default createAppConfig(
   {
-    main: resolve(join("src", "main.js")),
+    flow: resolve(join("src", "flow.js")),
   },
   {
     createEmptyCSSEntryPoints: true,

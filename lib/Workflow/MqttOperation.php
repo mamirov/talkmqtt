@@ -1,0 +1,75 @@
+<?php
+
+namespace OCA\TalkMqtt\Workflow;
+
+use OCA\Talk\Events\BeforeAttendeesAddedEvent;
+use OCA\Talk\Events\BeforeCallEndedEvent;
+use OCA\Talk\Events\BeforeCallStartedEvent;
+use OCA\Talk\Events\BeforeUserJoinedRoomEvent;
+use OCA\Talk\Events\LobbyModifiedEvent;
+use OCA\Talk\Events\RoomModifiedEvent;
+use OCA\Talk\Events\SessionLeftRoomEvent;
+use OCA\TalkMqtt\Service\MqttService;
+use OCA\TalkMqtt\Util\JsonUtil;
+use OCP\EventDispatcher\Event;
+use OCP\WorkflowEngine\IManager;
+use OCP\WorkflowEngine\IRuleMatcher;
+use OCP\WorkflowEngine\ISpecificOperation;
+use ReflectionClass;
+
+class MqttOperation implements ISpecificOperation
+{
+
+    private $mqtt;
+
+    function __construct(MqttService $mqtt)
+    {
+        $this->mqtt = $mqtt;
+    }
+
+    function getDisplayName(): string
+    {
+        return "MQTT Op";
+    }
+
+    function getDescription(): string
+    {
+        return "Send an event to a MQTT topic";
+    }
+
+    function getEntityId(): string
+    {
+        return TalkCallEntity::class;
+    }
+
+    function getIcon(): string
+    {
+        return "";
+    }
+
+    function isAvailableForScope(int $scope): bool
+    {
+        return $scope == IManager::SCOPE_ADMIN;
+    }
+
+    function validateOperation(string $name, array $checks, string $operation): void {}
+
+    function onEvent(string $eventName, Event $event, IRuleMatcher $ruleMatcher): void
+    {
+        if (!$event instanceof BeforeCallStartedEvent 
+        && !$event instanceof BeforeCallEndedEvent 
+        && !$event instanceof BeforeUserJoinedRoomEvent
+        && !$event instanceof BeforeAttendeesAddedEvent
+        && !$event instanceof LobbyModifiedEvent
+        && !$event instanceof SessionLeftRoomEvent
+        && !$event instanceof RoomModifiedEvent) {
+            return;
+        }
+        $payload = [];
+        $payload['event'] = $event::class;
+        $payload['time'] = time();
+        $payload = JsonUtil::serializeJson($event, $payload);
+        $payload = json_encode($payload);
+        $this->mqtt->sendEvent($event::class, $payload, 0);
+    }
+}
