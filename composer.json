@@ -35,6 +35,7 @@
 		"php-mqtt/client": "*"
 	},
 	"require-dev": {
+		"doctrine/dbal": "3.10.4",
 		"nextcloud/ocp": "dev-stable30",
 		"roave/security-advisories": "dev-latest"
 	},
