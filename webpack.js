@@ -4,7 +4,7 @@ const StyleLintPlugin = require('stylelint-webpack-plugin')
 const path = require('path')
 
 webpackConfig.entry = {
-	main: { import: path.join(__dirname, 'src', 'main.js'), filename: 'main.js' },
+	flow: { import: path.join(__dirname, 'src', 'flow.js'), filename: 'flow.js' },
 }
 
 webpackConfig.plugins.push(

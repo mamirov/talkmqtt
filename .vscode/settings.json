@@ -1,5 +1,6 @@
 {
     "intelephense.environment.includePaths": [
         "../spreed/lib"
-    ]
+    ],
+    "javascript.suggest.autoImports": true
 }
